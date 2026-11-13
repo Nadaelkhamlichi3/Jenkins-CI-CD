@@ -33,11 +33,25 @@ pipeline {
         }
 
         stage('Run Tests') {
-            steps {
-                sh '''
-                    . venv/bin/activate
-                    pytest test_app.py --cov=app --cov-report=term
-                '''
+            parallel {
+                stage('Tests app') {
+                    steps {
+                        sh '''
+                            . venv/bin/activate
+                            export COVERAGE_FILE=.coverage.app
+                            pytest test_app.py --cov=app --cov-report=term
+                        '''
+                    }
+                }
+                stage('Tests app 2') {
+                    steps {
+                        sh '''
+                            . venv/bin/activate
+                            export COVERAGE_FILE=.coverage.app2
+                            pytest test_app_2.py --cov=app --cov-report=term
+                        '''
+                    }
+                }
             }
         }
 
