@@ -33,6 +33,11 @@ pipeline {
         }
 
         stage('Run Tests') {
+            when {
+                not {
+                    changeset pattern: 'README.md', comparator: 'EQUALS'
+                }
+            }
             parallel {
                 stage('Tests app') {
                     steps {
