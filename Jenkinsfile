@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    triggers {
+        cron('H/5 * * * *')
+    }
+
     environment {
         HOST       = '0.0.0.0'
         PORT       = '5000'
